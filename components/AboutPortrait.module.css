@@ -1,0 +1,367 @@
+.section {
+  --cream: #fff3d5;
+  --red: #861f29;
+  --hand: "Comic Sans MS", "Chalkboard SE", "Segoe Print", cursive;
+
+  color: var(--cream);
+  padding: 8px 0 35px;
+}
+
+.section,
+.section * {
+  box-sizing: border-box;
+}
+
+.heading {
+  text-align: center;
+}
+
+.heading > p {
+  margin: 0 0 12px;
+  font: 10px/1.6 Arial, sans-serif;
+  letter-spacing: 0.22em;
+}
+
+.heading h1 {
+  margin: 0;
+  color: var(--cream);
+  font-family: var(--hand);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+/* The portrait, arrows and facts share one coordinate system. */
+
+.scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1040 / 600;
+  margin: 14px auto 0;
+}
+
+.portrait {
+  position: absolute;
+  z-index: 2;
+  top: 10.8%;
+  left: 38.46%;
+  width: 23.08%;
+  margin: 0;
+  text-align: center;
+}
+
+.photoButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: rotate(-3deg);
+  transition: transform 220ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.photoButton:focus-visible {
+  outline: 3px dashed var(--cream);
+  outline-offset: 8px;
+}
+
+@media (hover: hover) {
+  .photoButton:hover {
+    transform: rotate(-1deg) translateY(-3px);
+  }
+}
+
+.photoButton:active {
+  transform: rotate(-2deg) scale(0.98);
+}
+
+.film {
+  position: relative;
+  display: block;
+  padding: 24px 11px;
+  background: var(--cream);
+  box-shadow: 7px 9px 0 #48121b33;
+}
+
+.film::before,
+.film::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0 9px,
+    transparent 9px 19px
+  );
+}
+
+.film::before {
+  top: 7px;
+}
+
+.film::after {
+  bottom: 7px;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 5px;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.06);
+  background: #e6d9c2;
+}
+
+.name {
+  margin-top: 18px;
+  padding: 9px 8px 11px;
+  color: var(--red);
+  background: var(--cream);
+  font-family: var(--hand);
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.25;
+  clip-path: polygon(
+    0 0,
+    100% 2%,
+    97% 50%,
+    100% 100%,
+    0 98%,
+    3% 50%
+  );
+}
+
+.tapHint {
+  display: block;
+  margin-top: 13px;
+  color: var(--cream);
+  font-family: var(--hand);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Everything appears together, with no staggered delays. */
+
+.reveal {
+  position: absolute;
+  inset: 0;
+  animation: revealFacts 420ms ease-out both;
+}
+
+.reveal[hidden] {
+  display: none;
+}
+
+.arrows {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.arrowLine {
+  stroke: var(--cream);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dotted {
+  stroke-dasharray: 1 9;
+}
+
+.fact {
+  position: absolute;
+  width: 23%;
+  text-align: center;
+}
+
+.fact p {
+  margin: 0;
+  color: var(--cream);
+  font-family: var(--hand);
+  font-size: clamp(15px, 1.9vw, 22px);
+  line-height: 1.55;
+}
+
+.fact strong {
+  color: #ffe0a6;
+  font-weight: 400;
+}
+
+.basics {
+  left: 1%;
+  top: 9%;
+  transform: rotate(-5deg);
+}
+
+.city {
+  right: 0;
+  top: 8%;
+  transform: rotate(4deg);
+}
+
+.creative {
+  left: 0;
+  top: 52%;
+  transform: rotate(-4deg);
+}
+
+.likes {
+  right: 0;
+  top: 49%;
+  transform: rotate(4deg);
+}
+
+.dislikes {
+  right: 6%;
+  top: 79%;
+  width: 29%;
+  transform: rotate(-2deg);
+}
+
+.dislikes p {
+  font-size: clamp(14px, 1.6vw, 18px);
+}
+
+.mobileArrow {
+  display: none;
+}
+
+.bio {
+  max-width: 720px;
+  margin: 8px auto 0;
+  text-align: center;
+}
+
+.bio p {
+  margin: 0 0 14px;
+  color: var(--cream);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+@keyframes revealFacts {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Mobile: keep the portrait large and lay facts below it. */
+
+@media (max-width: 760px) {
+  .scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    aspect-ratio: auto;
+    margin-top: 32px;
+    gap: 28px;
+  }
+
+  .portrait {
+    position: relative;
+    inset: auto;
+    width: min(260px, 76%);
+  }
+
+  .name {
+    font-size: 25px;
+  }
+
+  .reveal {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 26px 18px;
+    width: 100%;
+    padding: 0 5px 10px;
+  }
+
+  .arrows {
+    display: none;
+  }
+
+  .fact {
+    position: relative;
+    inset: auto;
+    width: auto;
+    transform: none;
+  }
+
+  .fact p {
+    font-size: 17px;
+  }
+
+  .mobileArrow {
+    display: block;
+    width: 65px;
+    height: 38px;
+    margin: 0 auto 8px;
+    stroke: var(--cream);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .city .mobileArrow,
+  .likes .mobileArrow {
+    transform: scaleX(-1);
+  }
+
+  .city .mobileArrow path,
+  .dislikes .mobileArrow path {
+    stroke-dasharray: 1 6;
+  }
+
+  .dislikes {
+    grid-column: 1 / -1;
+  }
+
+  .bio {
+    margin-top: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+
+  .photoButton {
+    transition: none;
+  }
+}
+.section {
+  padding-bottom: 0;
+}
+
+@media (min-width: 761px) {
+  .scene {
+    margin-bottom: -45px;
+  }
+}
+@media (min-width: 761px) {
+  .scene {
+    margin-bottom: 0;
+  }
+}

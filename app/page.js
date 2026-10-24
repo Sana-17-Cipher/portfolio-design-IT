@@ -19,7 +19,7 @@ const panels = {
   about: {
     title: "Hello, I’m Sankari.",
     description: "A little logic. A little imagination.",
-    note: "Add your biography and contact details here.",
+    note: "BSc IT student from Mumbai, blending design with tech—and keeping things simple.",
   },
 };
 
@@ -139,15 +139,10 @@ export default function Home() {
           aria-label="Portfolio sections"
           tabIndex={-1}
         >
-          <button
-            type="button"
-            className="nav-note projects-note"
-            onClick={() => openPanel("projects")}
-            aria-haspopup="dialog"
-          >
-            <small>01 / BUILD</small>
-            IT Projects <span aria-hidden="true">↗</span>
-          </button>
+          <Link href="/tech" className="nav-note projects-note">
+  <small>01 / BUILD</small>
+  IT Projects <span>↗</span>
+</Link>
 
           <button
             type="button"
@@ -159,15 +154,10 @@ export default function Home() {
             Design <span aria-hidden="true">↗</span>
           </button>
 
-          <button
-            type="button"
-            className="nav-note about-note"
-            onClick={() => openPanel("about")}
-            aria-haspopup="dialog"
-          >
-            <small>03 / HELLO</small>
-            About me <span aria-hidden="true">↗</span>
-          </button>
+          <Link href="/about" className="nav-note about-note">
+  <small>03 / HELLO</small>
+  About me <span>↗</span>
+</Link>
         </nav>
 
         {/* Replaces “Hover, tap & explore the desk”. */}

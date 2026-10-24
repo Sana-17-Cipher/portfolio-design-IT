@@ -1,0 +1,1209 @@
+.page {
+  --ink: #443d48;
+  --paper: #faf7ee;
+  --green: #a8c0aa;
+  --purple: #aa91b3;
+
+  position: relative;
+  isolation: isolate;
+
+  min-height: 100svh;
+  overflow-x: clip;
+
+  color: var(--ink);
+  background: #eeece9;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.backgroundPattern {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.navigation {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  min-height: 70px;
+  padding: 20px 30px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--ink);
+  text-decoration: none;
+
+  font-size: 13px;
+}
+
+.backLink span {
+  display: inline-block;
+  font-size: 22px;
+  transition: transform 180ms ease;
+}
+
+.backLink:hover span {
+  transform: translateX(-4px);
+}
+
+.pageLabel {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.page button {
+  font: inherit;
+}
+
+.page button:focus-visible,
+.page a:focus-visible {
+  outline: 3px solid #82628f;
+  outline-offset: 5px;
+}
+
+/* ---------------- Pull screen ---------------- */
+
+.pullScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: calc(100svh - 70px);
+  padding: 30px 20px 50px;
+
+  text-align: center;
+}
+
+.introEyebrow {
+  margin: 0 0 22px;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  font-weight: 700;
+}
+
+.pullScreen h1 {
+  margin: 0;
+
+  font-family: Kalam, cursive;
+  font-size: clamp(44px, 6vw, 78px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.pullScreen h1 em {
+  color: #7a927b;
+  font-style: normal;
+}
+
+.introText {
+  margin: 22px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #7a737c;
+}
+
+.pullArea {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+
+  width: 190px;
+  height: 235px;
+  margin-top: 16px;
+}
+
+.pullThread {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+
+  width: 2px;
+  background: #a695a3;
+  pointer-events: none;
+}
+
+.pullHandle {
+  position: absolute;
+  top: 52px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  width: 126px;
+  padding: 12px 12px 16px;
+
+  border: 2px solid var(--ink);
+  border-radius: 46% 44% 43% 47%;
+
+  background: #faf4da;
+  color: var(--ink);
+  box-shadow: 4px 5px 0 #443d4826;
+
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+
+  transition: transform 280ms ease;
+}
+
+.pullHandle.dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+.pullHandle > span:last-child {
+  font-family: Kalam, cursive;
+  font-size: 18px;
+}
+
+.pullArrow {
+  display: block;
+  width: 28px;
+  height: 40px;
+  animation: arrowNudge 1.5s ease-in-out infinite;
+}
+
+.pullArrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dragging .pullArrow {
+  animation: none;
+}
+
+.openInstead {
+  margin-top: 2px;
+  padding: 9px 12px;
+
+  border: 0;
+  background: transparent;
+  color: #77707c;
+
+  font-size: 12px !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+/* ---------------- Contact scene ---------------- */
+
+.contactScene {
+  animation: sceneReveal 500ms ease both;
+}
+
+.stage {
+  position: relative;
+
+  /*
+   * Reserve enough height for the entire hanging assembly.
+   * On short screens it can scroll rather than making text tiny.
+   */
+  height: 650px;
+}
+
+.hangingPosition {
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: min(460px, calc(100vw - 40px));
+  transform: translateX(-50%);
+}
+
+.swingAssembly {
+  width: 100%;
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+
+.enterSwing {
+  animation: swingEnter 2400ms both;
+}
+
+.replaySwing {
+  animation: swingAgain 1500ms both;
+}
+
+/* ---------------- Lanyard ---------------- */
+
+.lanyard {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 144px;
+}
+
+.strap {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  width: 39px;
+  height: 112px;
+  padding: 8px 0;
+
+  transform: translateX(-50%) rotate(2deg);
+
+  border: 3px solid #574957;
+  border-top: 0;
+  border-radius: 0 0 7px 7px;
+
+  background: #cdb2ab;
+  box-shadow: inset 5px 0 #ead3bc;
+}
+
+.strapMark {
+  padding: 1px 4px 0;
+
+  border: 2px solid #5b4c62;
+  border-radius: 3px;
+  background: #a48cab;
+  color: #f5e7c8;
+
+  font-family: Kalam, cursive;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.strapStar {
+  color: #886c94;
+  font-size: 23px;
+  line-height: 1;
+}
+
+.strapCode {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #577a78;
+}
+
+.metalRing {
+  position: absolute;
+  top: 91px;
+  left: 50%;
+
+  width: 57px;
+  height: 51px;
+
+  transform: translateX(-50%);
+
+  border: 9px solid #594550;
+  border-radius: 15px 15px 24px 24px;
+  box-shadow: inset 2px 2px #b99b9c;
+}
+
+.connector {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+
+  width: 20px;
+  height: 49px;
+
+  transform: translateX(-50%);
+
+  border: 2px solid #735d64;
+  border-radius: 12px;
+  background: #d2b2a6;
+  box-shadow: inset 4px 0 #e7ccba;
+}
+
+/* ---------------- Badge exterior ---------------- */
+
+.badge {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+
+  border: 2px solid #6e8876;
+  border-radius: 22px;
+
+  background-color: var(--green);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent 46%,
+      #78968140 47%,
+      #78968140 51%,
+      transparent 52%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 46%,
+      #78968130 47%,
+      #78968130 51%,
+      transparent 52%
+    );
+  background-size: 24px 28px;
+
+  box-shadow:
+    0 4px 0 #657865,
+    10px 17px 25px #463b4b24;
+
+  user-select: none;
+}
+
+.badgeTab {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 160px;
+  height: 33px;
+  padding: 0 23px;
+
+  transform: translateX(-50%);
+
+  border: 2px solid #6e8876;
+  border-bottom: 0;
+  border-radius: 30px 30px 0 0;
+  background: var(--green);
+}
+
+.badgeTab span {
+  width: 27px;
+  height: 10px;
+  border-radius: 6px;
+  background: #405352;
+  box-shadow: inset 0 2px #263b3a;
+}
+
+.flower {
+  position: absolute;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.flowerOne {
+  top: -8px;
+  left: 49px;
+}
+
+.flowerTwo {
+  top: -8px;
+  right: 64px;
+  width: 22px;
+}
+
+.flowerThree {
+  bottom: 28px;
+  left: -9px;
+}
+
+.flowerFour {
+  bottom: -8px;
+  right: 21px;
+  width: 28px;
+  height: 28px;
+}
+
+/* ---------------- Badge interior ---------------- */
+
+.cardWindow {
+  overflow: hidden;
+
+  border: 7px solid #504151;
+  border-bottom-color: #365d68;
+  border-right-color: #405765;
+  border-radius: 17px;
+
+  background: var(--paper);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  min-height: 48px;
+  padding: 10px 17px;
+
+  background: var(--purple);
+  color: #fffaf1;
+}
+
+.cardHeader > span:first-child {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  font-weight: 700;
+}
+
+.headerSymbol {
+  font-size: 29px;
+  line-height: 1;
+}
+
+.cardBody {
+  padding: 18px;
+}
+
+.identity {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: center;
+  gap: 17px;
+}
+
+.portraitWrap {
+  position: relative;
+}
+
+.portrait {
+  overflow: hidden;
+  border: 2px solid #625469;
+  border-radius: 13px;
+  background: #b7c9cd;
+}
+
+.portrait svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.photoSticker {
+  position: absolute;
+  left: -13px;
+  bottom: -12px;
+
+  padding: 3px 9px 1px;
+
+  transform: rotate(-10deg);
+
+  border: 2px solid #514454;
+  background: #efd5c4;
+  color: #6f4f6e;
+
+  font-family: Kalam, cursive;
+  font-size: 19px;
+  box-shadow: 2px 3px 0 #443d4826;
+}
+
+.photoTooltip {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 8px;
+
+  padding: 7px 12px 5px;
+  white-space: nowrap;
+
+  transform: translate(-50%, 6px);
+
+  border: 2px solid #514454;
+  border-radius: 8px;
+  background: #fff3cd;
+  color: #514454;
+
+  font-family: Kalam, cursive;
+  font-size: 17px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portraitWrap:hover .photoTooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+}
+
+.identityText {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #938692;
+
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.identityText h1 {
+  margin: 0 0 8px;
+
+  font-family: Kalam, cursive;
+  font-size: 31px;
+  line-height: 1.05;
+  letter-spacing: -0.8px;
+  font-weight: 700;
+}
+
+.role {
+  display: inline-block;
+  padding: 5px 8px;
+
+  background: #d5c7dc;
+  color: #59485f;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.identityText p {
+  margin: 10px 0 0;
+  color: #8b8089;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* ---------------- Contact details ---------------- */
+
+.contactDetails {
+  display: grid;
+  gap: 0;
+
+  margin-top: 25px;
+  border-top: 1px dashed #b8acb7;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  min-width: 0;
+  padding: 10px 2px;
+
+  border-bottom: 1px dashed #d6ccd4;
+
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a.contactRow {
+  transition:
+    color 160ms ease,
+    background 160ms ease;
+}
+
+a.contactRow:hover {
+  color: #77577e;
+  background: #ede3ee7a;
+}
+
+.contactIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 29px;
+
+  width: 29px;
+  height: 29px;
+
+  border-radius: 8px;
+  background: #e7e9de;
+  color: #657c6a;
+}
+
+.contactIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contactText {
+  flex: 1;
+  min-width: 0;
+}
+
+.contactLabel {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #968a94;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.contactValue {
+  display: block;
+
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+
+  user-select: text;
+}
+
+.linkArrow {
+  flex-shrink: 0;
+  font-size: 19px;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 15px;
+}
+
+.cardFooter > span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #948993;
+  text-align: right;
+}
+
+.barcode {
+  width: 92px;
+  height: 23px;
+  opacity: 0.5;
+
+  background: repeating-linear-gradient(
+    90deg,
+    #716571 0 2px,
+    transparent 2px 4px,
+    #716571 4px 5px,
+    transparent 5px 8px,
+    #716571 8px 12px,
+    transparent 12px 14px,
+    #716571 14px 16px,
+    transparent 16px 19px
+  );
+}
+
+/* ---------------- Bottom controls ---------------- */
+
+.sceneFooter {
+  position: relative;
+  z-index: 4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 20px 25px;
+  text-align: center;
+}
+
+.sceneFooter p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #897f8b;
+}
+
+.replayButton {
+  padding: 8px 17px;
+
+  border: 1.5px solid #8f8093;
+  border-radius: 24px;
+
+  background: #faf4e7;
+  color: #6f5c76;
+
+  font-family: Kalam, cursive !important;
+  font-size: 17px !important;
+  cursor: pointer;
+}
+
+.replayButton span {
+  margin-left: 7px;
+}
+
+/* ---------------- Animation ---------------- */
+
+@keyframes arrowNudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+@keyframes sceneReveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Rotation is around the top of the lanyard.
+ * Negative rotation starts the card on the left.
+ */
+@keyframes swingEnter {
+  0% {
+    opacity: 0;
+    transform: translateX(-65vw) rotate(42deg);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateX(0) rotate(-18deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  49% {
+    transform: rotate(11deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  66% {
+    transform: rotate(-6deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  80% {
+    transform: rotate(3deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  91% {
+    transform: rotate(-1.3deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0);
+  }
+}
+
+@keyframes swingAgain {
+  0% {
+    transform: rotate(0);
+  }
+
+  18% {
+    transform: rotate(10deg);
+  }
+
+  39% {
+    transform: rotate(-8deg);
+  }
+
+  59% {
+    transform: rotate(5deg);
+  }
+
+  76% {
+    transform: rotate(-2.7deg);
+  }
+
+  90% {
+    transform: rotate(1deg);
+  }
+
+  100% {
+    transform: rotate(0);
+  }
+}
+
+/* ---------------- Small screens ---------------- */
+
+@media (max-width: 520px) {
+  .navigation {
+    min-height: 61px;
+    padding: 17px 16px;
+  }
+
+  .backLink {
+    font-size: 12px;
+  }
+
+  .pageLabel {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .pullScreen {
+    min-height: calc(100svh - 61px);
+  }
+
+  .hangingPosition {
+    width: calc(100vw - 36px);
+    max-width: 400px;
+  }
+
+  .stage {
+    height: 610px;
+  }
+
+  .lanyard {
+    height: 125px;
+  }
+
+  .strap {
+    height: 94px;
+  }
+
+  .metalRing {
+    top: 73px;
+  }
+
+  .connector {
+    top: 102px;
+  }
+
+  .badge {
+    padding: 14px;
+    border-radius: 19px;
+  }
+
+  .cardWindow {
+    border-width: 6px;
+  }
+
+  .cardHeader {
+    min-height: 41px;
+    padding: 8px 12px;
+  }
+
+  .cardHeader > span:first-child {
+    font-size: 8px;
+    letter-spacing: 1.1px;
+  }
+
+  .cardBody {
+    padding: 14px;
+  }
+
+  .identity {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .identityText h1 {
+    font-size: 27px;
+  }
+
+  .eyebrow {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .contactValue {
+    font-size: 13px;
+  }
+
+  .contactDetails {
+    margin-top: 22px;
+  }
+}
+
+@media (max-width: 360px) {
+  .identity {
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .identityText h1 {
+    font-size: 24px;
+  }
+
+  .cardBody {
+    padding: 11px;
+  }
+
+  .contactValue {
+    font-size: 12px;
+  }
+
+  .pageLabel {
+    display: none;
+  }
+}
+
+/* Respect the visitor's motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::before,
+  .page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .swingAssembly {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Contact continues below the desk on the same green mat. */
+.page {
+  position: relative;
+  isolation: isolate;
+
+  min-height: 100svh;
+  padding: 0 0 24px;
+  overflow-x: clip;
+
+  background-color: #287a53;
+  background-image:
+    linear-gradient(
+      rgba(186, 211, 155, 0.48) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(186, 211, 155, 0.48) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      rgba(186, 211, 155, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(186, 211, 155, 0.1) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    48px 48px,
+    48px 48px,
+    12px 12px,
+    12px 12px;
+
+  scroll-margin-top: 0;
+}
+
+/* Light across the cutting mat. */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background: linear-gradient(
+    42deg,
+    transparent 0%,
+    transparent 37%,
+    rgba(248, 229, 157, 0.1) 37%,
+    rgba(248, 229, 157, 0.1) 45%,
+    transparent 45%,
+    transparent 61%,
+    rgba(248, 229, 157, 0.07) 61%,
+    rgba(248, 229, 157, 0.07) 68%,
+    transparent 68%
+  );
+}
+
+.sectionTitle {
+  margin: 0;
+  padding: 24px 20px 0;
+
+  color: #fff3cf;
+  text-align: center;
+
+  font-family: Kalam, cursive;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.contactScene {
+  animation: none;
+}
+
+/* Space for the lanyard, readable ID and its movement. */
+.stage {
+  position: relative;
+  height: 660px;
+}
+
+.hangingPosition {
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: min(460px, calc(100vw - 40px));
+  transform: translateX(-50%);
+}
+
+.swingAssembly {
+  width: 100%;
+  transform-origin: 50% 0;
+  will-change: transform;
+
+  /* Allow normal scrolling, but avoid double-tap zoom. */
+  touch-action: manipulation;
+}
+
+.enterSwing {
+  animation: fullContactSwing 2900ms both;
+}
+
+.badge {
+  box-shadow:
+    0 4px 0 #657865,
+    12px 20px 30px rgba(12, 38, 27, 0.32);
+}
+
+/* Keep the cartoon tooltip hover-only. */
+.photoTooltip {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portraitWrap:hover .photoTooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+}
+
+.sceneFooter p {
+  color: #e5ebd5;
+}
+
+.replayButton {
+  border-color: #e7ebce;
+  background: transparent;
+  color: #fff3cf;
+}
+
+.replayButton:hover {
+  background: rgba(255, 243, 207, 0.1);
+}
+
+/*
+ * Full entrance:
+ * comes from the left, swings right, then gradually settles.
+ * Replayed identically on double-click, double-tap or button.
+ */
+@keyframes fullContactSwing {
+  0% {
+    opacity: 0;
+    transform: translateX(-70vw) rotate(48deg);
+    animation-timing-function: cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  27% {
+    opacity: 1;
+    transform: translateX(0) rotate(-24deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateX(0) rotate(16deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  61% {
+    transform: translateX(0) rotate(-10deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  75% {
+    transform: translateX(0) rotate(6deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  86% {
+    transform: translateX(0) rotate(-3deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  94% {
+    transform: translateX(0) rotate(1.3deg);
+    animation-timing-function: ease-in-out;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0);
+  }
+}
+
+@media (max-width: 520px) {
+  .sectionTitle {
+    padding-top: 20px;
+    font-size: 25px;
+  }
+
+  .stage {
+    height: 610px;
+  }
+
+  .hangingPosition {
+    width: calc(100vw - 36px);
+    max-width: 400px;
+  }
+}
+
+/* Homepage motion toggle also controls this section. */
+.page[data-motion-paused="true"] *,
+.page[data-motion-paused="true"] *::before,
+.page[data-motion-paused="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+.page[data-motion-paused="true"] .swingAssembly {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swingAssembly {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}

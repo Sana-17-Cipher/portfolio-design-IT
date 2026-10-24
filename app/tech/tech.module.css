@@ -1413,3 +1413,211 @@
     transition: none;
   }
 }
+/* Projects — pink */
+.desktopShortcut:nth-child(1) .desktopFolder {
+  background: linear-gradient(135deg, #ffd9ef, #e98bbd);
+}
+
+/* Skills — lavender */
+.desktopShortcut:nth-child(2) .desktopFolder {
+  background: linear-gradient(135deg, #e6dfff, #a9b9f0);
+}
+
+/* Experience — peach */
+.desktopShortcut:nth-child(3) .desktopFolder {
+  background: linear-gradient(135deg, #fff0cf, #f5bc91);
+}
+
+/* Education — mint */
+.desktopShortcut:nth-child(4) .desktopFolder {
+  background: linear-gradient(135deg, #dcffe7, #8fd6b0);
+}
+
+/* Contact — sky blue */
+.desktopShortcut:nth-child(5) .desktopFolder {
+  background: linear-gradient(135deg, #d9f5ff, #8bcce9);
+}
+.heartDecoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin-inline: auto;
+}
+
+.gameHeart {
+  --heart-fill: #f7a7bd;
+  --heart-border: #c94d72;
+  --heart-empty: #3d0718;
+
+  display: block;
+  width: 23px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.gameHeart svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.gameHeart path {
+  fill: var(--heart-fill);
+  stroke: var(--heart-border);
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+
+  /* Gives it the slightly game-like crisp appearance */
+  filter: drop-shadow(0 1px 0 rgba(120, 20, 55, 0.12));
+}
+
+
+/* --------------------------------
+   GAME HEALTH ANIMATION
+
+   FULL:
+   ♥ ♥ ♥
+
+   DAMAGE:
+   ♥ ♥ ♡
+   ♥ ♡ ♡
+   ♡ ♡ ♡
+
+   HEAL:
+   ♥ ♡ ♡
+   ♥ ♥ ♡
+   ♥ ♥ ♥
+
+   -------------------------------- */
+
+
+/* LEFT HEART
+   Last one to disappear,
+   first one to refill
+*/
+.heart1 path {
+  animation: heartOne 6s steps(1, end) infinite;
+}
+
+
+/* MIDDLE HEART */
+.heart2 path {
+  animation: heartTwo 6s steps(1, end) infinite;
+}
+
+
+/* RIGHT HEART
+   First one to disappear,
+   last one to refill
+*/
+.heart3 path {
+  animation: heartThree 6s steps(1, end) infinite;
+}
+
+
+/* LEFT */
+@keyframes heartOne {
+  /* full */
+  0%,
+  42% {
+    fill: var(--heart-fill);
+  }
+
+  /* all health gone */
+  43%,
+  57% {
+    fill: var(--heart-empty);
+  }
+
+  /* healing */
+  58%,
+  100% {
+    fill: var(--heart-fill);
+  }
+}
+
+
+/* MIDDLE */
+@keyframes heartTwo {
+  /* full */
+  0%,
+  27% {
+    fill: var(--heart-fill);
+  }
+
+  /* lost */
+  28%,
+  69% {
+    fill: var(--heart-empty);
+  }
+
+  /* refill */
+  70%,
+  100% {
+    fill: var(--heart-fill);
+  }
+}
+
+
+/* RIGHT */
+@keyframes heartThree {
+  /* full */
+  0%,
+  14% {
+    fill: var(--heart-fill);
+  }
+
+  /* first health point lost */
+  15%,
+  82% {
+    fill: var(--heart-empty);
+  }
+
+  /* last health point restored */
+  83%,
+  100% {
+    fill: var(--heart-fill);
+  }
+}
+
+
+/* Optional tiny hit effect */
+.gameHeart {
+  animation: heartPulse 6s steps(1, end) infinite;
+}
+
+@keyframes heartPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  14%,
+  28%,
+  42%,
+  58%,
+  70%,
+  83% {
+    transform: scale(0.9);
+  }
+
+  16%,
+  30%,
+  44%,
+  60%,
+  72%,
+  85% {
+    transform: scale(1);
+  }
+}
+
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .gameHeart,
+  .gameHeart path {
+    animation: none;
+  }
+}

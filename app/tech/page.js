@@ -439,10 +439,30 @@ function ProjectSlider() {
       aria-labelledby="projects-title"
     >
       <div className={styles.sectionBar}>
+     
         <div>
           <p className={styles.eyebrow}>OPEN THE FILES</p>
           <h2 id="projects-title">Selected projects</h2>
         </div>
+           <div className={styles.heartDecoration} aria-hidden="true">
+  <span className={`${styles.gameHeart} ${styles.heart1}`}>
+    <svg viewBox="0 0 24 22">
+      <path d="M12 21L2.1 11.1C-1.1 7.9.3 2.6 4.7 1.3 7.3.5 10.1 1.4 12 3.5 13.9 1.4 16.7.5 19.3 1.3c4.4 1.3 5.8 6.6 2.6 9.8L12 21z" />
+    </svg>
+  </span>
+
+  <span className={`${styles.gameHeart} ${styles.heart2}`}>
+    <svg viewBox="0 0 24 22">
+      <path d="M12 21L2.1 11.1C-1.1 7.9.3 2.6 4.7 1.3 7.3.5 10.1 1.4 12 3.5 13.9 1.4 16.7.5 19.3 1.3c4.4 1.3 5.8 6.6 2.6 9.8L12 21z" />
+    </svg>
+  </span>
+
+  <span className={`${styles.gameHeart} ${styles.heart3}`}>
+    <svg viewBox="0 0 24 22">
+      <path d="M12 21L2.1 11.1C-1.1 7.9.3 2.6 4.7 1.3 7.3.5 10.1 1.4 12 3.5 13.9 1.4 16.7.5 19.3 1.3c4.4 1.3 5.8 6.6 2.6 9.8L12 21z" />
+    </svg>
+  </span>
+</div>
 
         <button
           type="button"

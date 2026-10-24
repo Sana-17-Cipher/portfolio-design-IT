@@ -454,46 +454,41 @@ export default function ContactExperience({ paused = false }) {
   const [revealed, setRevealed] = useState(false);
   const [swingCount, setSwingCount] = useState(0);
 
-  const sectionRef = useRef(null);
-  const pointerStart = useRef(null);
+  const stageRef = useRef(null);
+  const touchStart = useRef(null);
   const previousTap = useRef(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-
-    if (!section) return;
+    const stage = stageRef.current;
+    if (!stage) return;
 
     if (!("IntersectionObserver" in window)) {
       setRevealed(true);
       return;
     }
 
+    // Wait until the ID area is visible, not the introduction.
     const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-
+      ([entry]) => {
         if (entry.isIntersecting) {
           setRevealed(true);
           observer.disconnect();
         }
       },
-      {
-        // Start when a meaningful part of the section is visible.
-        threshold: 0.25,
-      }
+      { threshold: 0.35 }
     );
 
-    observer.observe(section);
+    observer.observe(stage);
 
     return () => observer.disconnect();
   }, []);
 
-  function replayFullSwing() {
+  function replaySwing() {
     previousTap.current = null;
-    setSwingCount((previous) => previous + 1);
+    setSwingCount((count) => count + 1);
   }
 
-  function isInteractiveTarget(target) {
+  function isLinkOrButton(target) {
     return (
       target instanceof Element &&
       Boolean(target.closest("a, button"))
@@ -504,13 +499,13 @@ export default function ContactExperience({ paused = false }) {
     if (
       event.pointerType !== "touch" ||
       !event.isPrimary ||
-      isInteractiveTarget(event.target)
+      isLinkOrButton(event.target)
     ) {
-      pointerStart.current = null;
+      touchStart.current = null;
       return;
     }
 
-    pointerStart.current = {
+    touchStart.current = {
       id: event.pointerId,
       x: event.clientX,
       y: event.clientY,
@@ -521,43 +516,41 @@ export default function ContactExperience({ paused = false }) {
   function handlePointerUp(event) {
     if (event.pointerType !== "touch") return;
 
-    const start = pointerStart.current;
-    pointerStart.current = null;
+    const start = touchStart.current;
+    touchStart.current = null;
 
     if (
       !start ||
       start.id !== event.pointerId ||
-      isInteractiveTarget(event.target)
+      isLinkOrButton(event.target)
     ) {
       previousTap.current = null;
       return;
     }
 
     const now = performance.now();
-
-    const movement = Math.hypot(
+    const distance = Math.hypot(
       event.clientX - start.x,
       event.clientY - start.y
     );
 
-    // Scrolling or holding the card is not a tap.
-    if (movement > 12 || now - start.time > 350) {
+    // Scrolling should never count as a tap.
+    if (distance > 12 || now - start.time > 350) {
       previousTap.current = null;
       return;
     }
 
     const last = previousTap.current;
 
-    const isDoubleTap =
+    if (
       last &&
       now - last.time < 320 &&
       Math.hypot(
         event.clientX - last.x,
         event.clientY - last.y
-      ) < 32;
-
-    if (isDoubleTap) {
-      replayFullSwing();
+      ) < 32
+    ) {
+      replaySwing();
       return;
     }
 
@@ -571,17 +564,55 @@ export default function ContactExperience({ paused = false }) {
   return (
     <section
       id="contact"
-      ref={sectionRef}
       className={styles.page}
       data-motion-paused={paused ? "true" : "false"}
-      aria-labelledby="contact-section-title"
+      aria-labelledby="contact-heading"
     >
-      <h2 id="contact-section-title" className={styles.sectionTitle}>
-        Let’s connect
-      </h2>
+      {/* Suspense screen: ordinary scrolling continues below. */}
+      <div className={styles.contactIntro}>
+        <p className={styles.introEyebrow}>
+          YOU FOUND THE CONTACT CORNER
+        </p>
 
+        <h2 id="contact-heading" className={styles.introHeading}>
+          Let’s make
+          <br />
+          something <span>good.</span>
+        </h2>
+
+        <p className={styles.introDescription}>
+          My details are just a little scroll away.
+        </p>
+
+        <div className={styles.scrollCue}>
+          <span className={styles.cueThread} aria-hidden="true" />
+
+          <div className={styles.cueTag}>
+            <svg
+              className={styles.cueArrow}
+              viewBox="0 0 40 54"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M20 5v40M7 32l13 14 13-14"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <span>Pull down</span>
+          </div>
+        </div>
+
+        <p className={styles.keepScrolling}>Keep scrolling to meet me</p>
+      </div>
+
+      {/* The ID enters only when this area scrolls into view. */}
       <div className={styles.contactScene}>
-        <div className={styles.stage}>
+        <div ref={stageRef} className={styles.stage}>
           {revealed && (
             <div className={styles.hangingPosition}>
               <div
@@ -590,13 +621,12 @@ export default function ContactExperience({ paused = false }) {
                 onPointerDown={handlePointerDown}
                 onPointerUp={handlePointerUp}
                 onPointerCancel={() => {
-                  pointerStart.current = null;
+                  touchStart.current = null;
                   previousTap.current = null;
                 }}
               >
                 <Lanyard />
-
-                <ContactBadge onReplay={replayFullSwing} />
+                <ContactBadge onReplay={replaySwing} />
               </div>
             </div>
           )}
@@ -608,7 +638,7 @@ export default function ContactExperience({ paused = false }) {
           <button
             type="button"
             className={styles.replayButton}
-            onClick={replayFullSwing}
+            onClick={replaySwing}
           >
             Swing again <span aria-hidden="true">↝</span>
           </button>

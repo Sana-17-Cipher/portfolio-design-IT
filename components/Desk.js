@@ -1634,27 +1634,7 @@ export default function Desk({ onOpen }) {
       </DeskObject>
 
       {/* Small stars to balance lower-right space */}
-      <DeskObject
-        label="Twinkle the little stars"
-        position="translate(1430 683)"
-        mobilePosition="translate(795 938) scale(.75)"
-        mobile={mobile}
-        motion="bounce"
-      >
-        <path
-          d="M0 0 10 24 24 10-24 10-10 24-10-24-24-10 24-10Z"
-          fill="#f1d47c"
-          stroke="#3b432c"
-          strokeWidth="3"
-        />
 
-        <path
-          d="M63 -36 7 17 17 7-17 7-7 17-7-17-17-7 17-7Z"
-          fill="#f1d47c"
-          stroke="#3b432c"
-          strokeWidth="3"
-        />
-      </DeskObject>
     </svg>
   );
 }

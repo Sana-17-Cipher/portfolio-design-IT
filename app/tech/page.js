@@ -529,9 +529,480 @@ function ProjectSlider() {
     </section>
   );
 }
-function TechConversation() {
+function BubbleGhost({ containerRef }) {
+  const ghostRef = useRef(null);
+  const waveRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const ghost = ghostRef.current;
+
+    if (!container || !ghost) return;
+
+    const bubbles = Array.from(
+      container.querySelectorAll(
+        [
+          styles.questionBubble,
+          styles.shortReply,
+          styles.replyCard,
+          styles.contactReply,
+        ]
+          .filter(Boolean)
+          .map((name) => `.${name}`)
+          .join(",")
+      )
+    );
+
+    if (!bubbles.length) return;
+
+    const motionQuery = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    let reducedMotion = motionQuery.matches;
+    let frame;
+    let lastTime = 0;
+    let dirty = true;
+    let initialized = false;
+    let boxes = [];
+    let containerRect;
+
+    // Begin directly at the second message.
+    const firstIndex = Math.min(1, bubbles.length - 1);
+    let currentIndex = firstIndex;
+    let targetIndex = firstIndex;
+
+    let position = { x: 0, y: 0 };
+    let phase = "wave";
+    let phaseTime = 0;
+    let jump = null;
+    let waveAtStart = true;
+
+    let lastScrollTime = -Infinity;
+    let previousScrollY = window.scrollY;
+    let scrollSpeed = 0;
+    let scrollPending = false;
+
+    const clamp = (value, min, max) =>
+      Math.max(min, Math.min(max, value));
+
+    function setPhase(next) {
+      phase = next;
+      phaseTime = 0;
+      ghost.dataset.action = next;
+    }
+
+    function measure() {
+      containerRect = container.getBoundingClientRect();
+
+      const size = ghost.offsetWidth || 48;
+      const availableWidth = Math.max(0, container.clientWidth - size);
+
+      boxes = bubbles.map((bubble) => {
+        const rect = bubble.getBoundingClientRect();
+
+        const start = clamp(
+          rect.left - containerRect.left + 8,
+          0,
+          availableWidth
+        );
+
+        const end = clamp(
+          rect.right - containerRect.left - size - 8,
+          start,
+          availableWidth
+        );
+
+        return {
+          start,
+          end,
+          y: rect.top - containerRect.top - size + 2,
+          top: rect.top,
+          bottom: rect.bottom,
+        };
+      });
+
+      dirty = false;
+    }
+
+    function paint() {
+      ghost.style.transform =
+        `translate3d(${position.x}px, ${position.y}px, 0)`;
+    }
+
+    function findReadingBubble() {
+      const readingLine = window.innerHeight * 0.45;
+      let closest = firstIndex;
+      let closestDistance = Infinity;
+
+      for (let i = firstIndex; i < boxes.length; i += 1) {
+        const box = boxes[i];
+
+        const distance =
+          readingLine < box.top
+            ? box.top - readingLine
+            : readingLine > box.bottom
+              ? readingLine - box.bottom
+              : 0;
+
+        if (distance < closestDistance) {
+          closest = i;
+          closestDistance = distance;
+        }
+      }
+
+      return closest;
+    }
+
+    function isVisible(index) {
+      const box = boxes[index];
+
+      return (
+        box &&
+        box.top > ghost.offsetHeight &&
+        box.top < window.innerHeight - 50
+      );
+    }
+
+    function beginJump(nextIndex) {
+      if (!boxes[nextIndex] || nextIndex === currentIndex) return;
+
+      jump = {
+        from: { ...position },
+        toIndex: nextIndex,
+        progress: 0,
+      };
+
+      setPhase("jump");
+    }
+
+    function updateJump(delta, scrolling) {
+      if (!jump) return;
+
+      const destination = boxes[jump.toIndex];
+
+      // Always land at the START, never the far end.
+      const target = {
+        x: destination.start,
+        y: destination.y,
+      };
+
+      const duration = scrolling
+        ? clamp(230 - scrollSpeed * 35, 130, 230)
+        : 360;
+
+      jump.progress = Math.min(
+        1,
+        jump.progress + delta / duration
+      );
+
+      const t = jump.progress;
+      const eased = t * t * (3 - 2 * t);
+
+      position.x =
+        jump.from.x + (target.x - jump.from.x) * eased;
+
+      position.y =
+        jump.from.y +
+        (target.y - jump.from.y) * eased -
+        Math.sin(Math.PI * t) * 26;
+
+      if (t === 1) {
+        currentIndex = jump.toIndex;
+        position = target;
+        jump = null;
+        waveAtStart = true;
+        setPhase("land");
+      }
+    }
+
+    function onScroll() {
+      const now = performance.now();
+      const elapsed = Math.max(16, now - lastScrollTime);
+
+      scrollSpeed =
+        Math.abs(window.scrollY - previousScrollY) / elapsed;
+
+      previousScrollY = window.scrollY;
+      lastScrollTime = now;
+      scrollPending = true;
+      dirty = true;
+    }
+
+    function onResize() {
+      dirty = true;
+    }
+
+    function onMotionChange(event) {
+      reducedMotion = event.matches;
+      jump = null;
+      initialized = false;
+      dirty = true;
+    }
+
+    waveRef.current = () => {
+      if (reducedMotion || phase === "jump") return;
+
+      waveAtStart = true;
+      setPhase("wave");
+    };
+
+    function animate(now) {
+      frame = window.requestAnimationFrame(animate);
+
+      const delta = lastTime
+        ? Math.min(now - lastTime, 40)
+        : 0;
+
+      lastTime = now;
+
+      if (document.hidden) return;
+      if (dirty) measure();
+
+      if (!initialized) {
+        position = {
+          x: boxes[currentIndex].start,
+          y: boxes[currentIndex].y,
+        };
+
+        initialized = true;
+        waveAtStart = true;
+        setPhase(reducedMotion ? "still" : "wave");
+        paint();
+      }
+
+      const visible =
+        containerRect.top < window.innerHeight &&
+        containerRect.bottom > 0;
+
+      ghost.style.visibility = visible ? "visible" : "hidden";
+ghost.style.opacity = visible ? "1" : "0";
+
+if (!visible) return;
+
+      const scrolling = now - lastScrollTime < 220;
+
+      if (scrollPending) {
+        targetIndex = findReadingBubble();
+        scrollPending = false;
+      }
+
+      if (reducedMotion) {
+        currentIndex = targetIndex;
+
+        position = {
+          x: boxes[currentIndex].start,
+          y: boxes[currentIndex].y,
+        };
+
+        ghost.dataset.action = "still";
+        paint();
+        return;
+      }
+
+      phaseTime += delta;
+
+      if (phase === "jump") {
+        updateJump(delta, scrolling);
+        paint();
+        return;
+      }
+
+      // Move one bubble at a time while scrolling.
+      if (targetIndex !== currentIndex) {
+        beginJump(
+          currentIndex + Math.sign(targetIndex - currentIndex)
+        );
+
+        paint();
+        return;
+      }
+
+      const box = boxes[currentIndex];
+
+      position.y = box.y;
+      position.x = clamp(position.x, box.start, box.end);
+
+      if (phase === "land") {
+        if (phaseTime >= 150) {
+          setPhase("wave");
+        }
+      } else if (phase === "wave") {
+        if (phaseTime >= 650) {
+          if (waveAtStart) {
+            waveAtStart = false;
+            setPhase("walk");
+          } else {
+            setPhase("wait");
+          }
+        }
+      } else if (phase === "walk") {
+        position.x = Math.min(
+          box.end,
+          position.x + (72 * delta) / 1000
+        );
+
+        if (position.x >= box.end) {
+          waveAtStart = false;
+          setPhase("wave");
+        }
+      } else if (phase === "wait") {
+        const next = currentIndex + 1;
+
+        if (phaseTime >= 500 && isVisible(next)) {
+          targetIndex = next;
+          beginJump(next);
+        }
+      }
+
+      paint();
+    }
+
+    const resizeObserver = new ResizeObserver(onResize);
+
+    resizeObserver.observe(container);
+    bubbles.forEach((bubble) => resizeObserver.observe(bubble));
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    motionQuery.addEventListener("change", onMotionChange);
+
+    frame = window.requestAnimationFrame(animate);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      motionQuery.removeEventListener("change", onMotionChange);
+
+      waveRef.current = null;
+    };
+  }, [containerRef]);
+
   return (
-    <div className={styles.techConversation}>
+    <button
+      ref={ghostRef}
+      type="button"
+      className={styles.spiritAnchor}
+      data-action="wave"
+      aria-label="Make the ghost wave"
+      onClick={() => waveRef.current?.()}
+    >
+      <svg
+        viewBox="0 0 100 100"
+        className={styles.spiritArtwork}
+        fill="none"
+        aria-hidden="true"
+      >
+        <ellipse
+          className={styles.spiritShadow}
+          cx="50"
+          cy="95"
+          rx="23"
+          ry="3"
+          fill="#000"
+          opacity=".18"
+        />
+
+        <g className={styles.spiritBody}>
+          <g className={styles.spiritArmLeft}>
+            <path
+              d="M28 53C20 54 15 48 10 44C6 40 3 43 5 50C8 61 17 67 28 67Z"
+              fill="#fffce9"
+              stroke="#d4d1bb"
+              strokeWidth="1.2"
+            />
+          </g>
+
+          <path
+            d="M21 73C22 60 20 49 24 34C28 17 37 7 51 7C69 7 79 21 80 41C81 58 78 73 84 85C87 93 79 95 72 91C65 99 56 95 51 91C44 99 35 95 32 91C24 96 17 90 21 73Z"
+            fill="#fffce9"
+            stroke="#d4d1bb"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+          />
+
+          <path
+            d="M62 11C74 23 74 40 73 57C72 74 72 83 78 90C84 93 87 89 84 84C78 69 82 55 80 40C79 26 73 16 62 11Z"
+            fill="#e8e5cf"
+            opacity=".75"
+          />
+
+          <g className={styles.spiritOpenEyes} fill="#302820">
+            <ellipse cx="40" cy="40" rx="4.4" ry="6.5" />
+            <ellipse cx="61" cy="40" rx="4.4" ry="6.5" />
+
+            <circle cx="41" cy="38" r="1.3" fill="white" />
+            <circle cx="62" cy="38" r="1.3" fill="white" />
+          </g>
+
+          <g
+            className={styles.spiritHappyEyes}
+            stroke="#302820"
+            strokeWidth="3"
+            strokeLinecap="round"
+          >
+            <path d="M35 42Q40 34 45 42" />
+            <path d="M56 42Q61 34 66 42" />
+          </g>
+
+          <g fill="#efa9ad" opacity=".7">
+            <ellipse cx="31" cy="51" rx="6" ry="3" />
+            <ellipse cx="70" cy="51" rx="6" ry="3" />
+          </g>
+
+          <path
+            className={styles.spiritSmile}
+            d="M44 52Q50 60 57 52"
+            stroke="#614037"
+            strokeWidth="2.7"
+            strokeLinecap="round"
+          />
+
+          <g className={styles.spiritHappyMouth}>
+            <path
+              d="M43 51Q50 49 58 51C58 66 43 66 43 51Z"
+              fill="#614037"
+            />
+            <path
+              d="M46 59Q51 55 56 59Q51 65 46 59Z"
+              fill="#e99b9e"
+            />
+          </g>
+
+          <ellipse
+            className={styles.spiritJumpMouth}
+            cx="51"
+            cy="55"
+            rx="3.5"
+            ry="4.5"
+            fill="#614037"
+          />
+
+          <g className={styles.spiritArmRight}>
+            <path
+              d="M75 52C83 49 87 39 92 39C99 40 94 53 89 59C85 65 80 67 75 65Z"
+              fill="#fffce9"
+              stroke="#d4d1bb"
+              strokeWidth="1.2"
+            />
+          </g>
+        </g>
+      </svg>
+    </button>
+  );
+}
+function TechConversation() {
+  const conversationRef = useRef(null);
+
+  return (
+    <div
+      ref={conversationRef}
+      className={styles.techConversation}
+    >
+         <BubbleGhost containerRef={conversationRef} />
       <div className={styles.chatStatus}>
         <span aria-hidden="true" />
         a little conversation / about my work
@@ -790,6 +1261,7 @@ function TechConversation() {
 
         <p className={styles.chatDelivered}>Delivered ✓✓</p>
       </div>
+
     </div>
   );
 }

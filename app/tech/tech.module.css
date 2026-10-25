@@ -2494,3 +2494,549 @@
 .chatContactLink:hover {
   background: #ffffff30;
 }
+/* =========================================
+   LITTLE GHOST — ONE MOVEMENT SYSTEM
+========================================= */
+
+.techConversation {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.spiritAnchor {
+  --spirit-direction: 1;
+  --spirit-gaze: 0px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 15;
+
+  display: block;
+  width: 54px;
+  height: 54px;
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* JS owns position. No left/top/transform transition here. */
+  transition: opacity 150ms ease;
+  will-change: transform;
+}
+
+.spiritAnchor:focus-visible {
+  outline: 2px solid #edc2cc;
+  outline-offset: 4px;
+}
+
+.spiritArtwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 2px 2px #0002);
+}
+
+.spiritBody {
+  transform-box: view-box;
+  transform-origin: 50px 92px;
+}
+
+.spiritFace {
+  transform: translateX(var(--spirit-gaze));
+  transition: transform 180ms ease;
+}
+
+.spiritArmLeft,
+.spiritArmRight,
+.spiritFootLeft,
+.spiritFootRight,
+.spiritOpenEyes {
+  transform-box: view-box;
+}
+
+.spiritArmLeft {
+  transform-origin: 27px 57px;
+}
+
+.spiritArmRight {
+  transform-origin: 76px 56px;
+}
+
+.spiritFootLeft {
+  transform-origin: 37px 90px;
+}
+
+.spiritFootRight {
+  transform-origin: 64px 90px;
+}
+
+.spiritOpenEyes {
+  transform-origin: 50px 40px;
+  animation: spiritBlink 4.8s infinite;
+}
+
+/* Expressions */
+.spiritHappyEyes,
+.spiritHappyMouth,
+.spiritJumpMouth {
+  display: none;
+}
+
+.spiritAnchor[data-action="wave"] .spiritOpenEyes,
+.spiritAnchor[data-action="wave"] .spiritSmile {
+  display: none;
+}
+
+.spiritAnchor[data-action="wave"] .spiritHappyEyes,
+.spiritAnchor[data-action="wave"] .spiritHappyMouth {
+  display: inline;
+}
+
+.spiritAnchor[data-action="jump"] .spiritSmile {
+  display: none;
+}
+
+.spiritAnchor[data-action="jump"] .spiritJumpMouth {
+  display: inline;
+}
+
+/* WALK: actual horizontal travel comes from JavaScript.
+   These animations add alternating steps and body movement. */
+.spiritAnchor[data-action="walk"] .spiritBody {
+  animation: spiritWaddle 420ms ease-in-out infinite;
+}
+
+.spiritAnchor[data-action="walk"] .spiritFootLeft {
+  animation: spiritStep 420ms ease-in-out infinite;
+}
+
+.spiritAnchor[data-action="walk"] .spiritFootRight {
+  animation: spiritStep 420ms ease-in-out -210ms infinite;
+}
+
+.spiritAnchor[data-action="walk"] .spiritArmLeft {
+  animation: spiritArmSwing 840ms ease-in-out infinite;
+}
+
+.spiritAnchor[data-action="walk"] .spiritArmRight {
+  animation: spiritArmSwing 840ms ease-in-out -420ms infinite;
+}
+
+/* WAVE: big enough to be visible at this size */
+.spiritAnchor[data-action="wave"] .spiritArmRight {
+  animation: spiritWave 260ms ease-in-out infinite alternate;
+}
+
+.spiritAnchor[data-action="wave"] .spiritBody {
+  animation: spiritHappyBounce 520ms ease-in-out infinite;
+}
+
+/* JUMP: one continuous arc, with arms lifted */
+.spiritAnchor[data-action="jump"] .spiritBody {
+  transform:
+    rotate(calc(var(--spirit-direction) * 7deg))
+    scale(0.93, 1.06);
+}
+
+.spiritAnchor[data-action="jump"] .spiritArmLeft {
+  transform: rotate(28deg);
+}
+
+.spiritAnchor[data-action="jump"] .spiritArmRight {
+  transform: rotate(-30deg);
+}
+
+.spiritAnchor[data-action="jump"] .spiritFootLeft {
+  transform: translateY(-3px);
+}
+
+.spiritAnchor[data-action="jump"] .spiritFootRight {
+  transform: translateY(-3px);
+}
+
+.spiritAnchor[data-action="jump"] .spiritShadow {
+  opacity: 0;
+}
+
+/* LAND: soft squash, then recover */
+.spiritAnchor[data-action="land"] .spiritBody {
+  animation: spiritLand 200ms ease-out both;
+}
+
+/* REST: gentle breathing and looking around */
+.spiritAnchor[data-action="idle"] .spiritBody {
+  animation: spiritBreathe 2s ease-in-out infinite;
+}
+
+@keyframes spiritWaddle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  25% {
+    transform: translateY(-2px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(0) rotate(3deg);
+  }
+
+  75% {
+    transform: translateY(-2px) rotate(0deg);
+  }
+}
+
+@keyframes spiritStep {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(2px, -4px) rotate(-8deg);
+  }
+}
+
+@keyframes spiritArmSwing {
+  0%,
+  100% {
+    transform: rotate(-9deg);
+  }
+
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes spiritWave {
+  from {
+    transform: rotate(-38deg);
+  }
+
+  to {
+    transform: rotate(13deg);
+  }
+}
+
+@keyframes spiritHappyBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+
+@keyframes spiritLand {
+  0% {
+    transform: scale(1.13, 0.83);
+  }
+
+  65% {
+    transform: scale(0.97, 1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spiritBreathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes spiritBlink {
+  0%,
+  43%,
+  47%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  45% {
+    transform: scaleY(0.12);
+  }
+}
+
+@media (max-width: 560px) {
+  .spiritAnchor {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spiritAnchor,
+  .spiritAnchor * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* Add these properties to your existing conversation rule. */
+.techConversation {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.spiritAnchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  appearance: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  visibility: hidden;
+  will-change: transform;
+
+  /* Position is controlled by JavaScript. */
+  transition: none;
+}
+
+.spiritAnchor:focus-visible {
+  outline: 2px solid #e982a1;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.spiritArtwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px rgb(0 0 0 / 14%));
+}
+
+.spiritBody,
+.spiritArmLeft,
+.spiritArmRight,
+.spiritOpenEyes {
+  transform-box: view-box;
+}
+
+.spiritBody {
+  transform-origin: 50px 91px;
+}
+
+.spiritArmLeft {
+  transform-origin: 27px 57px;
+}
+
+.spiritArmRight {
+  transform-origin: 76px 56px;
+}
+
+.spiritOpenEyes {
+  transform-origin: 50px 40px;
+  animation: spiritBlink 4.8s infinite;
+}
+
+.spiritHappyEyes,
+.spiritHappyMouth,
+.spiritJumpMouth {
+  display: none;
+}
+
+/* Walking */
+
+.spiritAnchor[data-action="walk"] .spiritBody {
+  animation: spiritWalk 360ms ease-in-out infinite;
+}
+
+.spiritAnchor[data-action="walk"] .spiritArmLeft {
+  animation: spiritArmSwing 600ms ease-in-out infinite alternate;
+}
+
+.spiritAnchor[data-action="walk"] .spiritArmRight {
+  animation: spiritArmSwing 600ms ease-in-out infinite alternate-reverse;
+}
+
+/* Waving */
+
+.spiritAnchor[data-action="wave"] .spiritOpenEyes,
+.spiritAnchor[data-action="wave"] .spiritSmile {
+  display: none;
+}
+
+.spiritAnchor[data-action="wave"] .spiritHappyEyes,
+.spiritAnchor[data-action="wave"] .spiritHappyMouth {
+  display: block;
+}
+
+.spiritAnchor[data-action="wave"] .spiritArmRight {
+  animation: spiritWave 180ms ease-in-out infinite alternate;
+}
+
+.spiritAnchor[data-action="wave"] .spiritBody {
+  animation: spiritHappyBounce 430ms ease-in-out infinite;
+}
+
+/* Jumping */
+
+.spiritAnchor[data-action="jump"] .spiritSmile {
+  display: none;
+}
+
+.spiritAnchor[data-action="jump"] .spiritJumpMouth {
+  display: block;
+}
+
+.spiritAnchor[data-action="jump"] .spiritBody {
+  transform: scale(.94, 1.06);
+}
+
+.spiritAnchor[data-action="jump"] .spiritArmLeft {
+  transform: rotate(25deg);
+}
+
+.spiritAnchor[data-action="jump"] .spiritArmRight {
+  transform: rotate(-30deg);
+}
+
+.spiritAnchor[data-action="jump"] .spiritShadow {
+  opacity: 0;
+}
+
+/* Landing and waiting */
+
+.spiritAnchor[data-action="land"] .spiritBody {
+  animation: spiritLand 150ms ease-out both;
+}
+
+.spiritAnchor[data-action="wait"] .spiritBody {
+  animation: spiritBreathe 1.8s ease-in-out infinite;
+}
+
+@keyframes spiritWalk {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(3deg);
+  }
+}
+
+@keyframes spiritArmSwing {
+  from {
+    transform: rotate(-9deg);
+  }
+
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes spiritWave {
+  from {
+    transform: rotate(-35deg);
+  }
+
+  to {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes spiritHappyBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes spiritLand {
+  0% {
+    transform: scale(1.1, .88);
+  }
+
+  65% {
+    transform: scale(.97, 1.03);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spiritBreathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes spiritBlink {
+  0%,
+  43%,
+  47%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  45% {
+    transform: scaleY(.08);
+  }
+}
+
+@media (max-width: 640px) {
+  .spiritAnchor {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spiritAnchor *,
+  .spiritAnchor {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.spiritAnchor {
+  opacity: 1;
+}

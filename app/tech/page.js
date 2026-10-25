@@ -192,7 +192,7 @@ const experience = [
   },
   {
     role: "Junior Frontend Developer Intern",
-    company: "Spam Communications",
+    company: "Span Communications",
     points: [
       "Built and maintained responsive applications using Next.js, React.js, and JavaScript.",
       "Worked with Git, API testing, and deployment workflows.",
@@ -571,7 +571,7 @@ function TechConversation() {
           </div>
 
           <p className={styles.chatLead}>
-            Hellooo! I’m Sankari—a backend-focused Information
+            Hellooo! I’m Sankari, a backend-focused Information
             Technology student who likes knowing how things work
             behind the screen.
           </p>

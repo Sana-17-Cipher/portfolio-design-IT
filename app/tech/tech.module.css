@@ -2435,3 +2435,62 @@
     padding-inline: 0;
   }
 }
+.techConversation {
+  --chat-mint: #e68ca1;
+  --chat-paper: #e8cdd5;
+  --chat-pink: #793a4e;
+  --chat-ink: #321b24;
+}
+
+/* Left question */
+.questionBubble,
+.questionBubble::before {
+  background: var(--chat-mint);
+}
+
+/* Right replies */
+.shortReply,
+.replyCard,
+.contactReply,
+.shortReply::after,
+.replyCard::after,
+.contactReply::after {
+  background: var(--chat-paper);
+}
+
+/* Readable text on pink */
+.questionBubble,
+.shortReply,
+.replyCard,
+.contactReply,
+.chatLead,
+.chatParagraph,
+.chatSkillGroup h3,
+.chatJob h3,
+.chatJob > ul,
+.chatJobTop p,
+.chatSchool,
+.chatEducation h3,
+.chatYear,
+.chatSubjectLabel,
+.learningMessage p,
+.learningMessage strong,
+.conversationTags li,
+.chatGrade,
+.chatGrade span {
+  color: var(--chat-ink);
+}
+
+.conversationTags li,
+.chatGrade,
+.chatContactLink {
+  border-color: var(--chat-pink);
+}
+
+.techConversation .chatContactLink {
+  color: var(--chat-ink);
+}
+
+.chatContactLink:hover {
+  background: #ffffff30;
+}

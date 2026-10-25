@@ -1437,187 +1437,1001 @@
 .desktopShortcut:nth-child(5) .desktopFolder {
   background: linear-gradient(135deg, #d9f5ff, #8bcce9);
 }
-.heartDecoration {
+/* TEXT + REPLY RESUME */
+
+.techConversation {
+  --chat-paper: #e5e4d7;
+  --chat-mint: #58ce9e;
+  --chat-pink: #b72770;
+  --chat-ink: #171a18;
+
+  width: 100%;
+  margin: 0;
+  padding: 55px max(24px, calc((100% - 1000px) / 2)) 85px;
+  background: #0b0b0b;
+  color: var(--chat-paper);
+}
+
+.chatStatus {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 10px;
+  margin-bottom: 55px;
+  color: #b8bcb7;
+  text-align: center;
+  font: 10px/1.7 "Courier New", monospace;
+  letter-spacing: 0.07em;
+}
+
+.chatStatus > span {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--chat-mint);
+}
+
+.chatExchange {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.chatExchange + .chatExchange {
+  margin-top: 78px;
+}
+
+.questionRow {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 18px;
+  padding-right: 70px;
+}
+
+.chatAvatar,
+.smallAvatar {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #5c6572;
+  background: #e0e4e7;
+}
+
+.chatAvatar svg {
+  width: 44px;
+  height: 44px;
+  transform: translateY(5px);
+}
+
+.smallAvatar {
+  width: 42px;
+  height: 42px;
+  color: #202820;
+  background: var(--chat-mint);
+  font: italic 28px/1 Georgia, "Times New Roman", serif;
+}
+
+.questionBubble,
+.shortReply {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 19px 27px;
+  color: var(--chat-ink);
+  font: 25px/1.3 Georgia, "Times New Roman", serif;
+  overflow-wrap: break-word;
+}
+
+.questionBubble {
+  border-radius: 35px 35px 35px 7px;
+  background: var(--chat-mint);
+}
+
+.questionBubble::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -11px;
+  width: 23px;
+  height: 23px;
+  border-radius: 0 0 100% 0;
+  background: var(--chat-mint);
+}
+
+.shortReply {
+  max-width: 78%;
+  margin-top: 26px;
+  border-radius: 35px 35px 7px 35px;
+  background: var(--chat-paper);
+}
+
+.shortReply::after,
+.replyCard::after,
+.contactReply::after {
+  content: "";
+  position: absolute;
+  right: -11px;
+  bottom: 0;
+  width: 24px;
+  height: 25px;
+  border-radius: 0 0 0 100%;
+  background: var(--chat-paper);
+}
+
+/* LARGE CREAM REPLY */
+
+.replyCard {
+  position: relative;
+  width: min(800px, calc(100% - 65px));
+  margin-top: 20px;
+  padding: 35px 40px 30px;
+  border-radius: 48px 48px 9px 48px;
+  color: var(--chat-ink);
+  background: var(--chat-paper);
+}
+
+.replyHeading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.chatStar {
+  flex-shrink: 0;
+  color: var(--chat-mint);
+  font-size: 59px;
+  line-height: 1;
+}
+
+.replyHeading h2 {
+  min-width: 0;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 4.6vw, 63px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.055em;
+}
+
+.replyHeading h2 em {
+  display: inline-block;
+  padding-bottom: 5px;
+  border-bottom: 2px solid currentColor;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.chatLead {
+  margin: 0 0 17px;
+  font: 22px/1.5 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.02em;
+}
+
+.chatParagraph {
+  margin: 0 0 22px;
+  color: #444a43;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.replySignoff {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 25px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid #171a182b;
+  color: #51574e;
+  font: italic 17px/1.5 Georgia, "Times New Roman", serif;
+}
+
+.replySignoff > span {
+  color: var(--chat-pink);
+  font-size: 26px;
+}
+
+/* OUTLINED TAGS — DECORATIVE ×, NOT DELETE BUTTONS */
+
+.conversationTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conversationTags li {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  max-width: 100%;
+  padding: 5px 14px;
+  border: 2px solid var(--chat-pink);
+  border-radius: 999px;
+  color: #474d44;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.conversationTags li > span {
+  flex-shrink: 0;
+  color: #64695f;
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* SKILL GROUPS */
+
+.chatSkillGroups {
+  display: grid;
+  gap: 25px;
+  margin-top: 25px;
+}
+
+.chatSkillGroup h3 {
+  margin: 0 0 11px;
+  color: #263c31;
+  font: 22px/1.25 Georgia, "Times New Roman", serif;
+}
+
+.learningMessage {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #171a182b;
+}
+
+.learningMessage > span {
+  color: var(--chat-pink);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.learningMessage p {
+  margin: 0;
+  color: #4b5148;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.learningMessage strong {
+  color: #203e30;
+}
+
+/* WORK EXPERIENCE */
+
+.chatJobs {
+  display: grid;
+  gap: 26px;
+}
+
+.chatJob + .chatJob {
+  padding-top: 26px;
+  border-top: 1px solid #171a1833;
+}
+
+.chatJobTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+
+.chatJobIndex {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  flex-shrink: 0;
+  border: 1px solid var(--chat-pink);
+  border-radius: 50%;
+  color: var(--chat-pink);
+  font: 11px/1 "Courier New", monospace;
+}
+
+.chatJobTop p {
+  margin: 0;
+  color: #555b50;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chatJob h3 {
+  margin: 0 0 13px;
+  color: #1e2c23;
+  font: 26px/1.25 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.025em;
+}
+
+.chatJob > ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 19px;
+  color: #444a43;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.chatJob > ul li::marker {
+  color: var(--chat-pink);
+}
+
+/* EDUCATION */
+
+.chatEducation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin: 28px 0;
+}
+
+.chatSchool {
+  margin: 0 0 10px;
+  color: #596052;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.chatEducation h3 {
+  max-width: 420px;
+  margin: 0;
+  font: 29px/1.25 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.035em;
+}
+
+.chatYear {
+  margin: 15px 0 0;
+  color: #6b3153;
+  font: 11px/1.5 "Courier New", monospace;
+}
+
+.chatGrade {
+  width: 105px;
+  height: 105px;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 2px solid var(--chat-pink);
+  border-radius: 50%;
+  transform: rotate(7deg);
+}
+
+.chatGrade strong {
+  font: 44px/1 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.05em;
+}
+
+.chatGrade span {
+  color: #6b3153;
+  font: 10px/1.3 "Courier New", monospace;
+  letter-spacing: 0.12em;
+}
+
+.chatSubjectLabel {
+  margin: 0 0 13px;
+  color: #555d4f;
+  font: italic 18px/1.5 Georgia, "Times New Roman", serif;
+}
+
+/* FINAL REPLY */
+
+.contactReply {
+  position: relative;
+  max-width: calc(100% - 35px);
+  margin-top: 26px;
+  padding: 25px 30px;
+  border-radius: 32px 32px 8px 32px;
+  color: var(--chat-ink);
+  background: var(--chat-paper);
+}
+
+.contactReply p {
+  margin: 0 0 18px;
+  font: 28px/1.3 Georgia, "Times New Roman", serif;
+}
+
+.chatContactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 25px;
+  padding: 11px 17px;
+  border: 2px solid var(--chat-pink);
+  border-radius: 999px;
+  color: #74254d;
+  font-size: 14px;
+  transition: background 160ms ease;
+}
+
+.chatContactLink:hover {
+  background: #58ce9e40;
+}
+
+.techConversation .chatContactLink:focus-visible {
+  outline: 3px solid #74254d;
+  outline-offset: 4px;
+}
+
+.chatDelivered {
+  margin: 13px 0 0;
+  color: #a6afa5;
+  font: 10px/1.5 "Courier New", monospace;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+  .techConversation {
+    padding: 40px 22px 65px;
+  }
+
+  .chatStatus {
+    margin-bottom: 35px;
+    font-size: 8px;
+  }
+
+  .chatExchange + .chatExchange {
+    margin-top: 55px;
+  }
+
+  .questionRow {
+    gap: 12px;
+    padding-right: 20px;
+  }
+
+  .questionBubble,
+  .shortReply {
+    padding: 15px 20px;
+    font-size: 21px;
+  }
+
+  .chatAvatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .chatAvatar svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .smallAvatar {
+    width: 33px;
+    height: 33px;
+    font-size: 23px;
+  }
+
+  .replyCard {
+    width: calc(100% - 25px);
+    padding: 27px 25px;
+    border-radius: 36px 36px 8px 36px;
+  }
+
+  .replyHeading {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .replyHeading h2 {
+    font-size: 43px;
+  }
+
+  .chatStar {
+    font-size: 42px;
+  }
+
+  .chatLead {
+    font-size: 20px;
+  }
+
+  .conversationTags {
+    gap: 8px;
+  }
+
+  .conversationTags li {
+    gap: 12px;
+    padding: 5px 11px;
+    font-size: 14px;
+  }
+
+  .chatEducation {
+    align-items: flex-start;
+    gap: 17px;
+  }
+
+  .chatEducation h3 {
+    font-size: 24px;
+  }
+
+  .chatGrade {
+    width: 78px;
+    height: 78px;
+  }
+
+  .chatGrade strong {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 420px) {
+  .techConversation {
+    padding-inline: 16px;
+  }
+
+  .questionBubble,
+  .shortReply {
+    font-size: 19px;
+  }
+
+  .shortReply {
+    max-width: 88%;
+  }
+
+  .replyCard {
+    width: calc(100% - 12px);
+    padding: 24px 20px;
+  }
+
+  .replyHeading h2 {
+    font-size: 34px;
+  }
+
+  .chatStar {
+    font-size: 34px;
+  }
+
+  .chatEducation {
+    flex-wrap: wrap;
+  }
+
+  .chatJob h3 {
+    font-size: 23px;
+  }
+
+  .contactReply {
+    padding: 23px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatContactLink {
+    transition: none;
+  }
+}
+/* COMPACT MESSAGE-BUBBLE LAYOUT */
+
+.techConversation {
+  padding: 35px max(20px, calc((100% - 820px) / 2)) 55px;
+  background: #0b0b0b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Remove decorative elements */
+.chatStatus,
+.chatAvatar,
+.smallAvatar,
+.chatStar,
+.replySignoff {
+  display: none;
+}
+
+.chatExchange + .chatExchange {
+  margin-top: 32px;
+}
+
+/* Left-side question */
+.questionRow {
+  width: 100%;
+  gap: 0;
+  padding-right: 45px;
+}
+
+.questionBubble {
+  max-width: 85%;
+  padding: 12px 17px;
+  border-radius: 17px 17px 17px 4px;
+  background: var(--chat-mint);
+  font: 14px/1.55 Arial, Helvetica, sans-serif;
+}
+
+/* Right-side replies */
+.shortReply {
+  max-width: 85%;
+  margin-top: 14px;
+  padding: 11px 17px;
+  border-radius: 17px 17px 4px 17px;
+  font: 14px/1.55 Arial, Helvetica, sans-serif;
+}
+
+.replyCard {
+  width: fit-content;
+  max-width: 88%;
+  margin-top: 10px;
+  padding: 18px 20px;
+  border-radius: 18px 18px 4px 18px;
+}
+
+/* Smaller message tails */
+.questionBubble::before {
+  left: -7px;
+  bottom: 0;
+  width: 16px;
+  height: 15px;
+}
+
+.shortReply::after,
+.replyCard::after,
+.contactReply::after {
+  right: -7px;
+  bottom: 0;
+  width: 16px;
+  height: 15px;
+}
+
+/* Keep section headings accessible, but visually hide them */
+.replyHeading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.chatLead {
+  margin: 0 0 12px;
+  font: 14px/1.7 Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+}
+
+.chatParagraph {
+  margin: 0 0 14px;
+  font: 13px/1.75 Arial, Helvetica, sans-serif;
+}
+
+/* Small tags */
+.conversationTags {
+  gap: 6px;
+}
+
+.conversationTags li {
+  justify-content: center;
+  gap: 0;
+  padding: 4px 9px;
+  border-width: 1px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Remove decorative crosses */
+.conversationTags li > span {
+  display: none;
+}
+
+/* Skills */
+.chatSkillGroups {
+  gap: 17px;
+  margin-top: 16px;
+}
+
+.chatSkillGroup h3 {
+  margin: 0 0 8px;
+  font: 600 13px/1.4 Arial, Helvetica, sans-serif;
+}
+
+.learningMessage {
+  gap: 0;
+  margin-top: 17px;
+  padding-top: 13px;
+}
+
+.learningMessage > span {
+  display: none;
+}
+
+.learningMessage p {
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+/* Experience */
+.chatJobs {
+  gap: 18px;
+}
+
+.chatJob + .chatJob {
+  padding-top: 18px;
+}
+
+.chatJobTop {
+  gap: 0;
+  margin-bottom: 6px;
+}
+
+.chatJobIndex {
+  display: none;
+}
+
+.chatJobTop p {
+  color: #65504f;
+  font-size: 11px;
+}
+
+.chatJob h3 {
+  margin: 0 0 9px;
+  font: 600 14px/1.45 Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+}
+
+.chatJob > ul {
+  gap: 7px;
+  padding-left: 16px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Education */
+.chatEducation {
+  align-items: flex-start;
+  gap: 20px;
+  margin: 0 0 16px;
+}
+
+.chatSchool {
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.chatEducation h3 {
+  font: 600 15px/1.45 Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+}
+
+.chatYear {
+  margin-top: 8px;
+  font-size: 10px;
+}
+
+.chatGrade {
+  width: auto;
+  height: auto;
+  min-width: 58px;
+  gap: 4px;
+  padding: 9px 11px;
+  border-width: 1px;
+  border-radius: 12px;
+  transform: none;
+}
+
+.chatGrade strong {
+  font: 600 23px/1 Arial, Helvetica, sans-serif;
+}
+
+.chatGrade span {
+  font-size: 8px;
+}
+
+.chatSubjectLabel {
+  margin-bottom: 9px;
+  font: 12px/1.5 Arial, Helvetica, sans-serif;
+}
+
+/* Final contact reply */
+.contactReply {
+  max-width: 85%;
+  margin-top: 14px;
+  padding: 15px 18px;
+  border-radius: 17px 17px 4px 17px;
+}
+
+.contactReply p {
+  margin-bottom: 12px;
+  font: 14px/1.5 Arial, Helvetica, sans-serif;
+}
+
+.chatContactLink {
+  gap: 18px;
+  padding: 8px 12px;
+  border-width: 1px;
+  font-size: 12px;
+}
+
+.chatDelivered {
+  margin-top: 8px;
+  font-size: 9px;
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  .techConversation {
+    padding: 28px 18px 40px;
+  }
+
+  .chatExchange + .chatExchange {
+    margin-top: 27px;
+  }
+
+  .questionRow {
+    padding-right: 20px;
+  }
+
+  .questionBubble,
+  .shortReply {
+    max-width: 92%;
+    padding: 11px 14px;
+    font-size: 13px;
+  }
+
+  .replyCard {
+    max-width: 94%;
+    padding: 16px;
+  }
+
+  .chatLead {
+    font-size: 13px;
+  }
+
+  .chatParagraph {
+    font-size: 12px;
+  }
+
+  .chatEducation {
+    flex-wrap: wrap;
+    gap: 13px;
+  }
+
+  .contactReply {
+    max-width: 92%;
+  }
+}
+/* Reveal the page's existing grid background */
+.techConversation {
+  width: min(760px, calc(100% - 48px));
+  margin-inline: auto;
+  padding: 30px 12px 55px;
+  background: transparent;
+}
+
+/* Compact message widths */
+.questionBubble,
+.shortReply {
+  width: fit-content;
+  max-width: 85%;
+  padding: 11px 16px;
+  border-radius: 18px;
+}
+
+.replyCard {
+  width: fit-content;
+  max-width: 88%;
+  padding: 18px 20px;
+  border-radius: 20px;
+}
+
+.contactReply {
+  border-radius: 18px;
+}
+
+/* Replace the old rectangular tails with curved shapes */
+.questionBubble::before,
+.shortReply::after,
+.replyCard::after,
+.contactReply::after {
+  content: "";
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  width: 18px;
+  height: 20px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+
+  /* Curved tail without covering the grid behind it */
+  clip-path: polygon(
+    0% 0%,
+    45% 0%,
+    47% 25%,
+    55% 50%,
+    68% 72%,
+    84% 88%,
+    100% 100%,
+    65% 100%,
+    42% 94%,
+    23% 80%,
+    9% 58%,
+    0% 32%
+  );
+}
+
+/* Cream replies: tail points right */
+.shortReply::after,
+.replyCard::after,
+.contactReply::after {
+  right: -6px;
+  left: auto;
+  background: var(--chat-paper);
+}
+
+/* Mint questions: tail points left */
+.questionBubble::before {
+  left: -6px;
+  right: auto;
+  background: var(--chat-mint);
+  transform: scaleX(-1);
+}
+
+/* Give the project slider side margins */
+.projects {
+  width: min(1320px, calc(100% - 80px));
   margin-inline: auto;
 }
 
-.gameHeart {
-  --heart-fill: #f7a7bd;
-  --heart-border: #c94d72;
-  --heart-empty: #3d0718;
-
-  display: block;
-  width: 23px;
-  height: 22px;
-  flex: 0 0 auto;
-}
-
-.gameHeart svg {
-  display: block;
+.projects .sectionBar {
   width: 100%;
-  height: 100%;
-  overflow: visible;
+  padding-inline: 10px;
+  flex-wrap: wrap;
 }
 
-.gameHeart path {
-  fill: var(--heart-fill);
-  stroke: var(--heart-border);
-  stroke-width: 1.7;
-  stroke-linejoin: round;
-
-  /* Gives it the slightly game-like crisp appearance */
-  filter: drop-shadow(0 1px 0 rgba(120, 20, 55, 0.12));
+.projects .galleryHint {
+  width: 100%;
+  padding-inline: 10px;
 }
 
-
-/* --------------------------------
-   GAME HEALTH ANIMATION
-
-   FULL:
-   ♥ ♥ ♥
-
-   DAMAGE:
-   ♥ ♥ ♡
-   ♥ ♡ ♡
-   ♡ ♡ ♡
-
-   HEAL:
-   ♥ ♡ ♡
-   ♥ ♥ ♡
-   ♥ ♥ ♥
-
-   -------------------------------- */
-
-
-/* LEFT HEART
-   Last one to disappear,
-   first one to refill
-*/
-.heart1 path {
-  animation: heartOne 6s steps(1, end) infinite;
+.projects .projectViewport {
+  width: 100%;
 }
 
-
-/* MIDDLE HEART */
-.heart2 path {
-  animation: heartTwo 6s steps(1, end) infinite;
-}
-
-
-/* RIGHT HEART
-   First one to disappear,
-   last one to refill
-*/
-.heart3 path {
-  animation: heartThree 6s steps(1, end) infinite;
-}
-
-
-/* LEFT */
-@keyframes heartOne {
-  /* full */
-  0%,
-  42% {
-    fill: var(--heart-fill);
+/* Mobile */
+@media (max-width: 560px) {
+  .techConversation {
+    width: calc(100% - 28px);
+    padding: 24px 8px 40px;
   }
 
-  /* all health gone */
-  43%,
-  57% {
-    fill: var(--heart-empty);
+  .questionBubble,
+  .shortReply {
+    max-width: 90%;
   }
 
-  /* healing */
-  58%,
-  100% {
-    fill: var(--heart-fill);
-  }
-}
-
-
-/* MIDDLE */
-@keyframes heartTwo {
-  /* full */
-  0%,
-  27% {
-    fill: var(--heart-fill);
+  .replyCard {
+    max-width: 94%;
+    padding: 16px;
   }
 
-  /* lost */
-  28%,
-  69% {
-    fill: var(--heart-empty);
+  .projects {
+    width: calc(100% - 32px);
   }
 
-  /* refill */
-  70%,
-  100% {
-    fill: var(--heart-fill);
-  }
-}
-
-
-/* RIGHT */
-@keyframes heartThree {
-  /* full */
-  0%,
-  14% {
-    fill: var(--heart-fill);
-  }
-
-  /* first health point lost */
-  15%,
-  82% {
-    fill: var(--heart-empty);
-  }
-
-  /* last health point restored */
-  83%,
-  100% {
-    fill: var(--heart-fill);
-  }
-}
-
-
-/* Optional tiny hit effect */
-.gameHeart {
-  animation: heartPulse 6s steps(1, end) infinite;
-}
-
-@keyframes heartPulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  14%,
-  28%,
-  42%,
-  58%,
-  70%,
-  83% {
-    transform: scale(0.9);
-  }
-
-  16%,
-  30%,
-  44%,
-  60%,
-  72%,
-  85% {
-    transform: scale(1);
-  }
-}
-
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .gameHeart,
-  .gameHeart path {
-    animation: none;
+  .projects .sectionBar,
+  .projects .galleryHint {
+    padding-inline: 0;
   }
 }

@@ -529,7 +529,270 @@ function ProjectSlider() {
     </section>
   );
 }
+function TechConversation() {
+  return (
+    <div className={styles.techConversation}>
+      <div className={styles.chatStatus}>
+        <span aria-hidden="true" />
+        a little conversation / about my work
+      </div>
 
+      {/* INTRODUCTION */}
+      <section
+        className={styles.chatExchange}
+        aria-labelledby="chat-about-title"
+      >
+        <div className={styles.questionRow}>
+          <span className={styles.chatAvatar} aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="18" r="9" fill="currentColor" />
+              <path
+                d="M7 45v-5c0-10 8-15 17-15s17 5 17 15v5"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+
+          <p className={styles.questionBubble}>
+            I want to know the person behind the code.
+          </p>
+        </div>
+
+        <p className={styles.shortReply}>
+          Oh, sure! Here’s a little about me…
+        </p>
+
+        <article className={styles.replyCard}>
+          <div className={styles.replyHeading}>
+            <span className={styles.chatStar} aria-hidden="true">★</span>
+            <h2 id="chat-about-title">
+              about <em>ME</em>
+            </h2>
+          </div>
+
+          <p className={styles.chatLead}>
+            Hellooo! I’m Sankari—a backend-focused Information
+            Technology student who likes knowing how things work
+            behind the screen.
+          </p>
+
+          <p className={styles.chatParagraph}>
+            I build web applications with Node.js, TypeScript,
+            JavaScript, REST APIs, Firebase, and SQL databases.
+            My work covers application logic, authentication,
+            database operations, API integration, and responsive
+            interfaces.
+          </p>
+
+          <ul className={styles.conversationTags}>
+            {[
+              "Backend-focused",
+              "BSc IT student",
+              "Web development",
+              "Problem-solving",
+              "Design + technology",
+            ].map((item) => (
+              <li key={item}>
+                {item}
+                <span aria-hidden="true">×</span>
+              </li>
+            ))}
+          </ul>
+
+          <p className={styles.replySignoff}>
+            A little logic. A lot of curiosity.
+            <span aria-hidden="true">✳</span>
+          </p>
+        </article>
+      </section>
+
+      {/* SKILLS */}
+      <section
+        id="skills"
+        className={styles.chatExchange}
+        aria-labelledby="chat-skills-title"
+      >
+        <div className={styles.questionRow}>
+          <span className={styles.smallAvatar} aria-hidden="true">?</span>
+          <p className={styles.questionBubble}>
+            Okay, what’s in your toolkit?
+          </p>
+        </div>
+
+        <p className={styles.shortReply}>
+          A little frontend, a lot of backend.
+        </p>
+
+        <article className={styles.replyCard}>
+          <div className={styles.replyHeading}>
+            <span className={styles.chatStar} aria-hidden="true">✳</span>
+            <h2 id="chat-skills-title">
+              my <em>SKILLS</em>
+            </h2>
+          </div>
+
+          <p className={styles.chatParagraph}>
+            The languages, tools, and concepts I use to connect
+            an idea to a working application.
+          </p>
+
+          <div className={styles.chatSkillGroups}>
+            {skillGroups.map((group) => (
+              <div className={styles.chatSkillGroup} key={group.title}>
+                <h3>{group.title}</h3>
+
+                <ul className={styles.conversationTags}>
+                  {group.items.map((item) => (
+                    <li key={item}>
+                      {item}
+                      <span aria-hidden="true">×</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.learningMessage}>
+            <span aria-hidden="true">↳</span>
+            <p>
+              Currently expanding my backend toolkit with
+              <strong> PHP & Drupal</strong> while working on
+              production websites.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      {/* EXPERIENCE */}
+      <section
+        id="experience"
+        className={styles.chatExchange}
+        aria-labelledby="chat-experience-title"
+      >
+        <div className={styles.questionRow}>
+          <span className={styles.smallAvatar} aria-hidden="true">?</span>
+          <p className={styles.questionBubble}>
+            And where have you put all that to work?
+          </p>
+        </div>
+
+        <p className={styles.shortReply}>
+          Here’s where I’ve been building.
+        </p>
+
+        <article className={styles.replyCard}>
+          <div className={styles.replyHeading}>
+            <span className={styles.chatStar} aria-hidden="true">★</span>
+            <h2 id="chat-experience-title">
+              my <em>WORK</em>
+            </h2>
+          </div>
+
+          <div className={styles.chatJobs}>
+            {experience.map((job, index) => (
+              <article className={styles.chatJob} key={job.company}>
+                <div className={styles.chatJobTop}>
+                  <span className={styles.chatJobIndex}>
+                    0{index + 1}
+                  </span>
+                  <p>{job.company}</p>
+                </div>
+
+                <h3>{job.role}</h3>
+
+                <ul>
+                  {job.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <p className={styles.replySignoff}>
+            Learning by building. Improving by doing.
+            <span aria-hidden="true">↗</span>
+          </p>
+        </article>
+      </section>
+
+      {/* EDUCATION */}
+      <section
+        id="education"
+        className={styles.chatExchange}
+        aria-labelledby="chat-education-title"
+      >
+        <div className={styles.questionRow}>
+          <span className={styles.smallAvatar} aria-hidden="true">?</span>
+          <p className={styles.questionBubble}>
+            Still studying?
+          </p>
+        </div>
+
+        <p className={styles.shortReply}>
+          Yes! Still learning, always building.
+        </p>
+
+        <article className={styles.replyCard}>
+          <div className={styles.replyHeading}>
+            <span className={styles.chatStar} aria-hidden="true">✳</span>
+            <h2 id="chat-education-title">
+              study <em>NOTES</em>
+            </h2>
+          </div>
+
+          <div className={styles.chatEducation}>
+            <div>
+              <p className={styles.chatSchool}>Jai Hind College, Mumbai</p>
+              <h3>Bachelor’s in Information Technology</h3>
+              <p className={styles.chatYear}>2025 — Present</p>
+            </div>
+
+            <div className={styles.chatGrade}>
+              <strong>9.6</strong>
+              <span>CGPA</span>
+            </div>
+          </div>
+
+          <p className={styles.chatSubjectLabel}>On my reading list</p>
+
+          <ul className={styles.conversationTags}>
+            {[
+              "Web Development",
+              "Programming Fundamentals",
+              "Digital Media Projects",
+            ].map((item) => (
+              <li key={item}>
+                {item}
+                <span aria-hidden="true">×</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+
+      {/* CONTACT */}
+      <div className={styles.chatExchange}>
+        <div className={styles.questionRow}>
+          <span className={styles.smallAvatar} aria-hidden="true">?</span>
+          <p className={styles.questionBubble}>
+            What if I have something worth building?
+          </p>
+        </div>
+
+        <div className={styles.contactReply}>
+          <p>Then we should talk.</p>
+          <Link href="/#contact" className={styles.chatContactLink}>
+            Send me a hello <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+
+        <p className={styles.chatDelivered}>Delivered ✓✓</p>
+      </div>
+    </div>
+  );
+}
 export default function TechPage() {
   return (
     <main className={styles.page}>
@@ -664,148 +927,7 @@ export default function TechPage() {
 
       <ProjectSlider />
 
-      <div className={styles.contentShell}>
-        <section
-          className={styles.summaryWindow}
-          aria-labelledby="summary-title"
-        >
-          <WindowBar title="readme.txt" />
-
-          <div className={styles.summaryBody}>
-            <div>
-              <p className={styles.eyebrow}>A LITTLE LOGIC. A LOT OF CURIOSITY.</p>
-              <h2 id="summary-title">The person behind the programs.</h2>
-            </div>
-
-            <div className={styles.summaryText}>
-              <p>
-                I’m a backend-focused Information Technology student with
-                hands-on experience building web applications using Node.js,
-                TypeScript, JavaScript, REST APIs, Firebase, and SQL databases.
-              </p>
-
-              <p>
-                My work covers scalable application logic, authentication,
-                database operations, API integration, and responsive web
-                applications. I’m currently working on production websites
-                while expanding into PHP and Drupal backend development.
-              </p>
-
-              <p>
-                I bring a strong understanding of object-oriented programming,
-                Git workflows, and modern web development—and a curiosity
-                about how everything connects.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="skills"
-          className={styles.contentSection}
-          aria-labelledby="skills-title"
-        >
-          <div className={styles.sectionHeading}>
-            <p className={styles.eyebrow}>INSTALLED & IN PROGRESS</p>
-            <h2 id="skills-title">My technical toolkit</h2>
-          </div>
-
-          <div className={styles.skillsGrid}>
-            {skillGroups.map((group, index) => (
-              <article className={styles.skillWindow} key={group.title}>
-                <WindowBar title={group.file} />
-
-                <div className={styles.skillBody}>
-                  
-                  <h3>{group.title}</h3>
-
-                  <ul className={styles.skillTags}>
-                    {group.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          id="experience"
-          className={styles.contentSection}
-          aria-labelledby="experience-title"
-        >
-          <div className={styles.sectionHeading}>
-            <p className={styles.eyebrow}>REAL WORK / REAL LEARNING</p>
-            <h2 id="experience-title">Experience log</h2>
-          </div>
-
-          <div className={styles.experienceWindow}>
-            <WindowBar title="experience.log" />
-
-            {experience.map((job, index) => (
-              <article className={styles.job} key={job.company}>
-                <span className={styles.jobNumber}>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <div className={styles.jobHeading}>
-                  <h3>{job.role}</h3>
-                  <p>{job.company}</p>
-                </div>
-
-                <ul className={styles.jobDetails}>
-                  {job.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          id="education"
-          className={styles.contentSection}
-          aria-labelledby="education-title"
-        >
-          <div className={styles.sectionHeading}>
-            <p className={styles.eyebrow}>STILL LEARNING. ALWAYS BUILDING.</p>
-            <h2 id="education-title">Education</h2>
-          </div>
-
-          <div className={styles.educationGrid}>
-            <div className={styles.educationWindow}>
-              <WindowBar title="education.record" />
-
-              <div className={styles.educationBody}>
-                <div className={styles.grade}>
-                  <strong>9.6</strong>
-                  <span>CGPA</span>
-                </div>
-
-                <div>
-                  <h3>Bachelor’s in Information Technology</h3>
-                  <p>Jai Hind College, Mumbai</p>
-                  <span className={styles.educationDate}>2025 — PRESENT</span>
-                </div>
-              </div>
-
-              <p className={styles.coursework}>
-                Relevant coursework: Web Development · Programming
-                Fundamentals · Digital Media Projects
-              </p>
-            </div>
-
-            <aside className={styles.contactNote}>
-              <span className={styles.contactStar} aria-hidden="true">✳</span>
-              <h3>Something worth building?</h3>
-              <p>Let’s turn the idea into something that works.</p>
-              <Link href="/#contact">Let’s connect ↗</Link>
-            </aside>
-          </div>
-        </section>
-      </div>
+      <TechConversation />
 
       <footer className={styles.footer}>
         <span>SANKARI PILLAI / A LITTLE LOGIC. A LITTLE IMAGINATION.</span>
